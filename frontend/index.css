@@ -1,0 +1,166 @@
+.button{
+	background-color : #00991F;
+	color : #FFFFFF;
+	text-align : center;
+	vertical-align : middle;
+	line-height: 50px;
+	height : 50px;
+}
+
+#lobby {
+	display : none;
+	margin: auto;
+	width: 500px;
+}
+
+#lobby #infobox {
+	
+}
+
+.address {
+	text-align : center;
+	vertical-align : middle;
+	line-height: 100px;
+	height : 100px;
+	width : 100%;
+	background-color : #DDDDDD;
+	margin-bottom : 25px;
+	border: 2px solid #000000;
+}
+
+.address.selected {
+	background-color : #888888;
+	color : #FFFFFF;
+}
+
+.showIfReady{
+	display : none;
+}
+
+#sliderValue {
+	text-align : center;
+	margin-top : 10px;
+}
+
+#startGame{
+	position: relative;
+    left: 200px;
+	margin-top : 20px;
+	width : 100px;
+}
+
+#game {
+	position : relative;
+	display : none;
+	margin: auto;
+	width: 1200px;
+	top : 50px;
+}
+
+#board{
+	margin: auto;
+	width: 308px;
+}
+
+#header {
+	height : 100px;
+}
+
+.player {
+	width : 450px;
+	height : 50px;
+	vertical-align : middle;
+	line-height: 50px;
+}
+
+#player_0 {
+	background: linear-gradient(315deg, transparent 40px, #888888 0px);
+	float : left;
+	text-align : left; 
+	padding-left : 20px;
+}
+
+#player_1 {
+	background: linear-gradient(45deg, transparent 40px, #888888 0px);
+	float : right;
+	text-align : right; 
+	padding-right : 20px;
+}
+
+#player_0 table {
+	margin-left: 0;
+	margin-right: auto;
+}
+
+#player_1 table {
+	margin-right: 0;
+	margin-left: auto;
+}
+
+#player_0.yourTurn{
+	background: linear-gradient(315deg, transparent 40px, #00991F 0px);
+}
+
+#player_1.yourTurn{
+	background: linear-gradient(45deg, transparent 40px, #00991F 0px);
+}
+
+.icon img {
+	height : 40px;
+}
+
+.field {
+	height : 100px;
+	width : 100px;
+	background-color : #DDDDDD;	
+}
+
+.field img {
+	width : 100%;
+	height : 100%;
+}
+
+#grey {
+	display : none;
+	position : absolute;
+	top : 0px;
+	left : 0px;
+	background-color : rgba( 0, 0, 0, 0.8);
+	height : 100%;
+	width : 100%;
+	z-index : 1;
+}
+
+#grey #infobox {
+	position : relative;
+	top : 500px;
+	left : 50%;
+	transform : translateX(-50%); 
+	width : 600px;
+	height : 150px;
+	background-color : #DDDDDD;
+	border-radius: 25px;
+}
+
+#grey #infobox #msg {
+	width : 100%;
+	text-align : center;
+	position: relative;
+    top: 40px;
+	font-size : 18px;
+}
+
+#backLobby {
+	width : 200px;
+	position: relative;
+    float: right;
+    right: 20px;
+	top : 20px;
+}
+
+#waiting {
+	width: 100%;
+    top: 200px;
+    text-align: center;
+    position: relative;
+}

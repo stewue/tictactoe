@@ -1,0 +1,81 @@
+<html>
+	<head>
+		<title>Frontend with Smart Contract</title>
+		<link rel="stylesheet" type="text/css" href="index.css">
+		<link rel="stylesheet" type="text/css" href="jquery-ui.css">
+		<script src="web3.js"></script>
+		<script src="jquery.js"></script>
+		<script src="jquery-ui.js"></script>
+		<script src="frontend.js"></script>
+		<script src="web3-interface.js"></script>
+		<script>
+			Web3InterfaceToServer.url = 'http://localhost:8545';
+			Web3InterfaceToServer.ABI = [{"constant":true,"inputs":[{"name":"gameId","type":"uint256"}],"name":"isRunning","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"gameId","type":"uint256"}],"name":"getCurrentPlayer","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"gameId","type":"uint256"}],"name":"hasBothPaid","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"playerObj","type":"address[2]"},{"name":"depositObj","type":"uint256"}],"name":"create","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"gameId","type":"uint256"},{"name":"fieldId","type":"uint256"}],"name":"play","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getCounter","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"gameId","type":"uint256"}],"name":"getGame","outputs":[{"name":"","type":"uint256"},{"name":"","type":"address[2]"},{"name":"","type":"uint256"},{"name":"","type":"address[9]"},{"name":"","type":"uint256"},{"name":"","type":"bool[2]"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"gameId","type":"uint256"}],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"gameId","type":"uint256"},{"indexed":false,"name":"incremential","type":"uint256"},{"indexed":false,"name":"moveCounter","type":"uint256"}],"name":"GameObject","type":"event"}];
+			Web3InterfaceToServer.contractAddress = '0x44f7125535f362c798c81d71ae03ebc58a7e4893';
+			Web3InterfaceToServer.gas = 1000000;
+			
+			$(document).ready( function(){
+				Web3InterfaceToServer.init();
+				Frontend.init();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="lobby">
+			<div id="infobox"></div>
+			<div id="addresses"></div>
+			<div class="showIfReady" id="slider"></div>
+			<div class="showIfReady" id="sliderValue"></div>
+			<div class="button showIfReady" id="startGame" onclick="Frontend.lobby.startGame()">Start game</div>
+		</div>
+		<div id="game">
+			<div id="header">
+				<div class="player" id="player_0">
+					<table>
+						<tr>
+							<td class="name"></td>
+							<td class="icon">
+								<img src="img/nought.png" />
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="player" id="player_1">
+					<table>
+						<tr>
+							<td class="icon">
+								<img src="img/cross.png" />
+							</td>
+							<td class="name"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<table id="board">
+				<tr>
+					<td class="field" id="field_0" onclick="Frontend.game.makeTurn(0)"></td>
+					<td class="field" id="field_1" onclick="Frontend.game.makeTurn(1)"></td>
+					<td class="field" id="field_2" onclick="Frontend.game.makeTurn(2)"></td>
+				</tr>
+				<tr>
+					<td class="field" id="field_3" onclick="Frontend.game.makeTurn(3)"></td>
+					<td class="field" id="field_4" onclick="Frontend.game.makeTurn(4)"></td>
+					<td class="field" id="field_5" onclick="Frontend.game.makeTurn(5)"></td>
+				</tr>
+				<tr>
+					<td class="field" id="field_6" onclick="Frontend.game.makeTurn(6)"></td>
+					<td class="field" id="field_7" onclick="Frontend.game.makeTurn(7)"></td>
+					<td class="field" id="field_8" onclick="Frontend.game.makeTurn(8)"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="grey">
+			<div id="infobox">
+				<div id="msg"></div>
+			</div>
+			<div id="waiting">
+				<img src="img/waiting.gif" />
+			</div>
+		</div>
+	</body>
+</html>
