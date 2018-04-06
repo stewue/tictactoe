@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<title>Frontend with Smart Contract</title>
+		<script src="js/web3.js"></script>
+		<script src="js/jquery.js"></script>
+		<script src="js/frontend.js"></script>
+		<script src="js/web3-interface.js"></script>
+		<script src="config.js"></script>
+		<script src="js/game.js"></script>
+		<script>			
+			$(document).ready( function(){
+				Web3InterfaceToServer.init();
+				Game.init();
+			});
+		</script>
+		<style>
+			.field {
+				width: 50px;
+				height: 50px;
+				font-size: 40px;
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		GameId: <span id="gameId"></span><br/>
+		Deposit: <span id="deposit"></span> Ether<br/>
+		Player1: <span id="player1"></span><br/>
+		Player2: <span id="player2"></span><br/>
+		Turn of player: <span id="currentPlayer"></span><br/>
+		Game started: <span id="started"></span><br/>
+		Game finished: <span id="finished"></span><br/><br/>
+		
+		<table>
+			<tr>
+				<td class="field" id="field0"></td>
+				<td class="field" id="field1"></td>
+				<td class="field" id="field2"></td>
+			</tr>
+			<tr>
+				<td class="field" id="field3"></td>
+				<td class="field" id="field4"></td>
+				<td class="field" id="field5"></td>
+			</tr>
+			<tr>
+				<td class="field" id="field6"></td>
+				<td class="field" id="field7"></td>
+				<td class="field" id="field8"></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -118,5 +118,19 @@ Web3InterfaceToServer = {
 			
 			callback( address, result );
 		});
+	},
+	
+	// get Game object
+	getGameObject : function ( gameId, callback ){
+		this.contract.methods.getGame( gameId ).call()
+			.then( function( result, error ){  			
+				console.log('----------');
+				console.log('getGameObject (gameId->' + gameId + '):');
+				console.log(error);
+				console.log(result);
+				console.log('----------');
+
+				callback( result ); 
+			});
 	}
 };
