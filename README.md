@@ -30,7 +30,7 @@ loadScript("/tmp/test.js")
 Contract mined! address: 0xfb821bf9e66a5decb43a92fc615bbbdb296df462 transactionHash: 0xda816929b1764fa9736f02505e94bfdeace098a4348057ddacb0baf466dfda5e
 ```
 
-7) Open the frontend/index.html file in an editor and change the Web3InterfaceToServer.contractAddress variable
+7) Open the frontend/config.js file in an editor and change the Web3InterfaceToServer.contractAddress variable
 
 8) Open your browser and disable Web-Security
 On linux you can use for example:
