@@ -21,7 +21,69 @@ Frontend = {
 			}
 		});
 		
-		this.lobby.show();
+		var urlGameId = $.urlParam('id');
+		
+		if(urlGameId==null){
+			this.lobby.show();
+		}
+		else{
+			Web3InterfaceToServer.getGameObject( urlGameId, function( result ){
+				var players = result[1];
+				var moveCounter = result[2];
+				var board = result[3];
+				var deposit = result[4] / 1000000000000000000;
+				var depositPayed = result[5];
+				var finished = result[6];
+				
+				var player1_paid = depositPayed[0];
+				var player2_paid = depositPayed[1];
+
+				var isRunning =  player1_paid && player2_paid;
+				
+				if( finished == true ){
+					alert('Game already finished');
+					Frontend.lobby.show();
+				}
+				else if( isRunning == false ){
+					alert('Game not running');
+					Frontend.lobby.show();
+				}
+				// Load a running (not finished) game
+				else{
+					Frontend.gameId = urlGameId; 
+					Frontend.players = players;
+					Frontend.turnId = moveCounter;
+					Frontend.board = board;
+					Frontend.deposit = deposit;
+					
+					$('#grey').css('display', 'none');
+					$('#grey #infobox').css('display', 'none');
+					$('#game').css('display', 'block');
+					$('#lobby').css('display', 'none');
+					
+					for( var i=0; i<9; i++ ){
+						var field = board[i];
+						
+						if( field == players[0] ){
+							Frontend.board[i] = 0;
+							$('<img />').attr( 'src', Frontend.game.getImg(0) ).appendTo( '#field_' + i );
+						}
+						else if( field == players[1] ){
+							Frontend.board[i] = 1;
+							$('<img />').attr( 'src', Frontend.game.getImg(1) ).appendTo( '#field_' + i );
+						}
+						else{
+							Frontend.board[i] = -1;
+						}
+					}
+
+					$('#header #player_0 .name').text( Frontend.players[0] );
+					$('#header #player_1 .name').text( Frontend.players[1] );
+					
+					Frontend.game.highlightCurrentPlayer();
+				}
+			});
+		}		
 	},
 	
 	lobby : {
@@ -233,6 +295,17 @@ Frontend = {
 				}
 				return this;
 			};
+			
+			// url parameters
+			$.urlParam = function(name){
+				var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				if (results==null){
+				   return null;
+				}
+				else{
+				   return decodeURI(results[1]) || 0;
+				}
+			}
 		},
 		
 		weiToEther : function ( wei ){
