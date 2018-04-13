@@ -18,9 +18,14 @@ for (var i in array) {
 	}
   var test = contract.new($ARG txDeploy,
     function (e, contract) {
+	  if(e) {
+        console.error(e);
+        return;
+      }
+	  
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-    }
+      }
   });
 }
 EOF

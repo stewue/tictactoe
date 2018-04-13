@@ -1,4 +1,8 @@
 Frontend = {
+	// lobby
+	addresses : [],
+	balance : {},
+	// game
 	gameId : null,
 	players : [],
 	turnId : 0,
@@ -31,23 +35,43 @@ Frontend = {
 			$('#game').css('display', 'none');
 			$('#lobby').css('display', 'block');
 			$('.showIfReady').css('display', 'none');
-			$('#lobby #addresses').empty();
 			
 			this.slider.init();
 
 			// load all local addresses from the node
-			Web3InterfaceToServer.getAddresses( function ( players ){				
-				$.each( players, function( key, value ){
-					$('<div class="address" />').text( value ).appendTo('#lobby #addresses');
-				});
-				
-				$('.address').click( function(){
-					var address = $(this).text();
-					var selected = $(this).hasClass('selected');
-					Frontend.lobby.playerSelectOrDeselect( address, selected, $(this) );
-				});
+			Web3InterfaceToServer.getAddresses( function ( addresses ){
+				Frontend.addresses = addresses;
+		
+				// Get balance
+				for( var i = 0; i < Frontend.addresses.length; i++ ){
+					Web3InterfaceToServer.getBalance( Frontend.addresses[i], function( address, balance ){
+						Frontend.balance[ address ] = Frontend.helpers.weiToEther( balance );
+						
+						// check if all balances loaded
+						if( Frontend.addresses.length == Object.keys(Frontend.balance).length ){
+							Frontend.lobby.displayPlayersList();
+						}
+					});
+				}
 			});
 		},
+		
+		// load balance of each account
+		displayPlayersList : function (){
+			
+			$('#lobby #addresses').empty();
+			
+			$.each( Frontend.addresses, function( key, value ){
+				$('<div class="address" />').attr('id', value).html( value + "<br/>" + Frontend.balance[ value ] + " Ether" ).appendTo('#lobby #addresses');
+			});
+
+			$('.address').click( function(){
+				var address = $(this).attr('id');
+				var selected = $(this).hasClass('selected');
+				Frontend.lobby.playerSelectOrDeselect( address, selected, $(this) );
+			});
+		},
+		
 		// select or deselect a player in the lobby
 		playerSelectOrDeselect : function ( address, selected, element ){			
 			if( selected ){
@@ -167,10 +191,10 @@ Frontend = {
 		// display winner message
 		showWinner : function ( isDraw ){
 			if( isDraw ){
-				var msg = 'There is no winner!';
+				var msg = 'There is no winner and both get '+  Frontend.deposit +' Ether back!';
 			}
 			else{
-				var msg = 'The address "' + this.getCurrentPlayerAddress() + '" wins!';
+				var msg = 'The address "' + this.getCurrentPlayerAddress() + '" wins ' + ( 2 * Frontend.deposit ) + ' Ether!';
 			}
 			
 			$('#grey').css('display', 'block');
@@ -209,6 +233,10 @@ Frontend = {
 				}
 				return this;
 			};
+		},
+		
+		weiToEther : function ( wei ){
+			return wei / 1000000000000000000;
 		}
 	}
 	

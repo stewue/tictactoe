@@ -111,7 +111,7 @@ Web3InterfaceToServer = {
 	getBalance : function( address, callback ){
 		Web3InterfaceToServer.web3.eth.getBalance( address ).then(function( result, error ){
 			console.log('----------');
-			console.log('getBalance (fieldId->' + address + '):');
+			console.log('getBalance (address->' + address + '):');
 			console.log(error);
 			console.log(result);
 			console.log('----------');
