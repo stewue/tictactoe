@@ -70,7 +70,8 @@ Web3InterfaceToServer = {
 	
 	// helper function for create game
 	checkIfPaid : function ( callback ){
-		this.contract.methods.hasBothPaid( Frontend.gameId ).call()
+		this.contract.methods.haveBothPaid( Frontend.gameId )
+			.send({ 'from' : Frontend.game.getCurrentPlayerAddress(), 'gas' : this.gas })
 			.then( function( result, error ){  
 				Frontend.waiting.stop(); 
 			
