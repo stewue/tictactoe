@@ -3,7 +3,7 @@ pragma solidity ^0.4.21;
 contract TicTacToe {
 
 	struct Game {
-		uint incremential;
+		uint incremental;
 		address[2] players;
 		uint moveCounter;
 		address[9] board;
@@ -15,7 +15,7 @@ contract TicTacToe {
 	uint counter = 0;
 	mapping (uint => Game) games;
 
-	event GameObject( uint gameId, uint incremential, uint moveCounter );
+	event GameObject( uint gameId, uint incremental, uint moveCounter );
 	
 	/*
 		Create a new game with two players and a deposit
@@ -24,7 +24,7 @@ contract TicTacToe {
 		// player cannot play against itself
 		if(playerObj[0] != playerObj[1]){
 			uint gameId = counter;
-			games[gameId].incremential = 1;
+			games[gameId].incremental = 1;
 			games[gameId].players = playerObj;
 			games[gameId].deposit = depositObj;
 
@@ -40,14 +40,14 @@ contract TicTacToe {
 	function deposit( uint gameId ) public payable {
 		if ( msg.sender == games[gameId].players[0] && msg.value == games[gameId].deposit && !games[gameId].depositPayed[0] ) {
 			games[gameId].depositPayed[0] = true;
-			games[gameId].incremential++;
+			games[gameId].incremental++;
 		} 
 		else if ( msg.sender == games[gameId].players[1] && msg.value == games[gameId].deposit && !games[gameId].depositPayed[1] ){
 			games[gameId].depositPayed[1] = true;
-			games[gameId].incremential++;
+			games[gameId].incremental++;
 		}
 		
-		GameObject( gameId, games[gameId].incremential, games[gameId].moveCounter );
+		GameObject( gameId, games[gameId].incremental, games[gameId].moveCounter );
 	}
 
 	/*
@@ -62,7 +62,7 @@ contract TicTacToe {
 		// only if game is running and field is empty, your turn is valid
 		if( isRunning( gameId ) && isFieldEmpty( gameId, fieldId ) ){
 			games[gameId].board[ fieldId ] = msg.sender;
-			games[gameId].incremential++;
+			games[gameId].incremental++;
 			
 			hasWinner( gameId );
 			
@@ -105,13 +105,13 @@ contract TicTacToe {
 		Check if game is running (not finished, but already started)
 	*/
 	function isRunning ( uint gameId ) public constant returns (bool) {
-		return !games[gameId].finished && hasBothPaid( gameId );
+		return !games[gameId].finished && haveBothPaid( gameId );
 	}
 	
 	/*
-		Check if both players has paid the deposit
+		Check if both players have paid the deposit
 	*/
-	function hasBothPaid ( uint gameId ) public constant returns (bool) {
+	function haveBothPaid ( uint gameId ) public constant returns (bool) {
 		return games[gameId].depositPayed[0] && games[gameId].depositPayed[1];
 	}
 	
@@ -141,6 +141,6 @@ contract TicTacToe {
 		Get the game object for debugging
 	*/
 	function getGame ( uint gameId ) public constant returns ( uint, address[2], uint, address[9], uint, bool[2], bool ) {
-		return (games[gameId].incremential, games[gameId].players, games[gameId].moveCounter, games[gameId].board, games[gameId].deposit, games[gameId].depositPayed, games[gameId].finished );
+		return (games[gameId].incremental, games[gameId].players, games[gameId].moveCounter, games[gameId].board, games[gameId].deposit, games[gameId].depositPayed, games[gameId].finished );
 	}
 }
