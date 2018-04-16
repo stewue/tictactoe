@@ -97,6 +97,8 @@ Frontend = {
 			$('#game').css('display', 'none');
 			$('#lobby').css('display', 'block');
 			$('.showIfReady').css('display', 'none');
+			$('#retryDeposit').css('display', 'none');
+			$('#abortGame').css('display', 'none');
 			
 			this.slider.init();
 
@@ -176,9 +178,27 @@ Frontend = {
 		
 		startGame : function (){
 			// create new game object in contract
-			Web3InterfaceToServer.createGame( function ( players ){				
+			Web3InterfaceToServer.createGame( function (){				
 				Frontend.game.init();
 			});			
+		},
+		
+		isFailed : function (){
+			$('#retryDeposit').css('display', 'block');
+			$('#abortGame').css('display', 'block');
+		},
+		
+		abortGame : function (){
+			Web3InterfaceToServer.abortGame( function (){				
+				$('#retryDeposit').css('display', 'none');
+				$('#abortGame').css('display', 'none');
+			});	
+		},
+		
+		retryDeposit : function (){
+			Web3InterfaceToServer.secondPlayerPay( function (){				
+				Frontend.game.init();
+			});	
 		}
 	},
 	

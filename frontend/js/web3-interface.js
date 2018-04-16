@@ -38,8 +38,17 @@ Web3InterfaceToServer = {
 					Web3InterfaceToServer.web3.utils.toWei( Frontend.deposit.toString(), 'Ether') 
 				)
 				.send({ 'from' : Frontend.players[0], 'value' : Web3InterfaceToServer.web3.utils.toWei( Frontend.deposit.toString(), 'Ether'), 'gas' : Web3InterfaceToServer.gas })
+				.on('error', function(error){ 
+					console.log('----------');
+					console.log('createGame:');
+					console.log(error);
+					console.log('----------');
+				
+					Frontend.waiting.stop();
+					alert('Game was not created because insufficient funds for gas * price + value. Please retry to create a new game!');
+				
+				})
 				.then( function( result, error ){ 
-
 					Frontend.gameId = result.events.GameObject.returnValues['gameId'];
 
 					console.log('----------');
@@ -59,6 +68,17 @@ Web3InterfaceToServer = {
 		this.unlockAllAccounts( function(){
 			Web3InterfaceToServer.contract.methods.deposit( Frontend.gameId )
 				.send({ 'from' : Frontend.players[1], 'value' : Web3InterfaceToServer.web3.utils.toWei( Frontend.deposit.toString(), 'Ether'), 'gas' : Web3InterfaceToServer.gas })
+				.on('error', function(error){ 
+					console.log('----------');
+					console.log('secondPlayerPay:');
+					console.log(error);
+					console.log('----------');
+				
+					Frontend.waiting.stop();
+					alert('Second Player cannot pay deposit because of insufficient funds for gas * price + value. Use button abort or retry to pay deposit!');
+					Frontend.lobby.isFailed();
+				
+				})
 				.then( function( result, error ){  
 					console.log('----------');
 					console.log('secondPlayerPay:');
@@ -66,31 +86,8 @@ Web3InterfaceToServer = {
 					console.log(result);
 					console.log('----------');
 
-					Web3InterfaceToServer.checkIfPaid( callback );
-				});
-		});
-	},
-	
-	// helper function for create game
-	checkIfPaid : function ( callback ){
-		this.unlockAllAccounts( function(){
-			Web3InterfaceToServer.contract.methods.haveBothPaid( Frontend.gameId )
-				.send({ 'from' : Frontend.game.getCurrentPlayerAddress(), 'gas' : Web3InterfaceToServer.gas })
-				.then( function( result, error ){  
 					Frontend.waiting.stop(); 
-
-					console.log('----------');
-					console.log('checkIfPaid:');
-					console.log(error);
-					console.log(result);
-					console.log('----------');
-
-					if( result ){
-						callback(); 
-					}
-					else {
-						alert('At least one player has not paid the deposit');
-					}
+					callback(); 
 				});
 		});
 	},
@@ -102,6 +99,17 @@ Web3InterfaceToServer = {
 		this.unlockAllAccounts( function(){
 			Web3InterfaceToServer.contract.methods.play( Frontend.gameId, fieldId )
 				.send({ 'from' : Frontend.game.getCurrentPlayerAddress(), 'gas' : Web3InterfaceToServer.gas })
+				.on('error', function(error){ 
+					console.log('----------');
+					console.log('makeTurn (fieldId->' + fieldId + '):');
+					console.log(error);
+					console.log('----------');
+				
+					Frontend.waiting.stop();
+					alert('Move was not mined because of insufficient funds for gas * price + value. After okay program retry!');
+					Web3InterfaceToServer.makeTurn( fieldId, callback );
+				
+				})
 				.then( function( result, error ){ 
 					console.log('----------');
 					console.log('makeTurn (fieldId->' + fieldId + '):');
@@ -111,6 +119,36 @@ Web3InterfaceToServer = {
 
 					Frontend.waiting.stop(); 
 					callback(); 
+				});
+		});
+	},
+	
+	// make a turn
+	abortGame : function ( callback ){
+		Frontend.waiting.start();
+		
+		this.unlockAllAccounts( function(){
+			Web3InterfaceToServer.contract.methods.abort( Frontend.gameId )
+				.send({ 'from' : Frontend.players[0], 'gas' : Web3InterfaceToServer.gas })
+				.on('error', function(error){ 
+					console.log('----------');
+					console.log('abortGame:');
+					console.log(error);
+					console.log('----------');
+
+					alert('Abort failed. Use geth');
+				})
+				.then( function( result, error ){ 
+					console.log('----------');
+					console.log('abortGame:');
+					console.log(error);
+					console.log(result);
+					console.log('----------');
+					
+					Frontend.waiting.stop(); 
+					alert('Successfully aborted!'); 
+				
+					callback();
 				});
 		});
 	},

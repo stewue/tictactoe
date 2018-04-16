@@ -5,6 +5,9 @@
 	vertical-align : middle;
 	line-height: 50px;
 	height : 50px;
+	margin: auto;
+	width : 200px;
+	margin-top: 10px;
 }
 
 #lobby {
