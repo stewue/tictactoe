@@ -70,6 +70,16 @@ contract TicTacToe {
 		}
 	}
 	
+	/* 
+		Return deposit if only first player has paid
+	*/
+	function abort( uint gameId ){
+		if( games[gameId].depositPayed[0] && !games[gameId].depositPayed[1] ){
+			games[gameId].players[0].transfer( games[gameId].deposit );
+			games[gameId].depositPayed[0] = false;
+		}
+	}
+	
 	/*
 		Check if we have a winner
 	*/
