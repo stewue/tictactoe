@@ -184,6 +184,7 @@ Frontend = {
 		},
 		
 		isFailed : function (){
+			$('#startGame').css('display', 'none');
 			$('#retryDeposit').css('display', 'block');
 			$('#abortGame').css('display', 'block');
 		},
@@ -192,10 +193,12 @@ Frontend = {
 			Web3InterfaceToServer.abortGame( function (){				
 				$('#retryDeposit').css('display', 'none');
 				$('#abortGame').css('display', 'none');
+				$('#startGame').css('display', 'block');
 			});	
 		},
 		
 		retryDeposit : function (){
+			Frontend.waiting.start();
 			Web3InterfaceToServer.secondPlayerPay( function (){				
 				Frontend.game.init();
 			});	
