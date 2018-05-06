@@ -285,6 +285,8 @@ Frontend = {
 			$('#grey').css('display', 'block');
 			$('#grey #infobox').css('display', 'block');
 			$('#grey #infobox #msg').html( msg + '<div class="button" id="backLobby" onclick="Frontend.lobby.show()">Back to Lobby</div>');
+			
+			window.history.pushState({'id': null}, 'TicTacToe Lobby', 'index.html' );
 		},
 		getImg : function ( playerId ){
 			return playerId == 0 ? 'img/nought.png' : 'img/cross.png';

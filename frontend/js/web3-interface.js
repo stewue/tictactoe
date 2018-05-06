@@ -57,6 +57,8 @@ Web3InterfaceToServer = {
 					console.log(result);
 					console.log('GameId is:' + Frontend.gameId );
 					console.log('----------');
+				
+					window.history.pushState({'id': Frontend.gameId}, 'TicTacToe ID: ' + Frontend.gameId, 'index.html?id=' + Frontend.gameId );
 
 					Web3InterfaceToServer.secondPlayerPay( callback );	
 				});
