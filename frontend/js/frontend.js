@@ -214,7 +214,6 @@ Frontend = {
 			// reset all
 			Frontend.turnId = 0;
 			Frontend.board = [ -1, -1, -1, -1, -1, -1, -1, -1, -1 ];
-			Frontend.deposit = 0.01;
 			this.resetBoard();
 			
 			$('#header #player_0 .name').text( Frontend.players[0] );
